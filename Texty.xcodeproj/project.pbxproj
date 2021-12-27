@@ -19,6 +19,7 @@
 		1646753027763E0F0067338E /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1646752F27763E0F0067338E /* VideoPlayerViewController.swift */; };
 		1646753227763E390067338E /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1646753127763E390067338E /* NewConversationViewController.swift */; };
 		1646753427763E430067338E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1646753327763E430067338E /* ProfileViewController.swift */; };
+		16BB6B6D2779F7C200AAEDD8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB6B6C2779F7C200AAEDD8 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		1646752F27763E0F0067338E /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 		1646753127763E390067338E /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		1646753327763E430067338E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		16BB6B6C2779F7C200AAEDD8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				1646751327763B770067338E /* ConversationsViewController.swift */,
-				1646752927763DC90067338E /* LoginViewController.swift */,
-				1646752B27763DD70067338E /* RegisterViewController.swift */,
+				1646753627763FE30067338E /* Login */,
 				1646752D27763E000067338E /* PhotoViewerViewController.swift */,
 				1646752F27763E0F0067338E /* VideoPlayerViewController.swift */,
 				1646753127763E390067338E /* NewConversationViewController.swift */,
@@ -120,6 +121,7 @@
 			children = (
 				1646750F27763B770067338E /* AppDelegate.swift */,
 				1646751127763B770067338E /* SceneDelegate.swift */,
+				16BB6B6C2779F7C200AAEDD8 /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -131,6 +133,15 @@
 				1646751A27763B780067338E /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		1646753627763FE30067338E /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				1646752927763DC90067338E /* LoginViewController.swift */,
+				1646752B27763DD70067338E /* RegisterViewController.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +220,7 @@
 				1646753227763E390067338E /* NewConversationViewController.swift in Sources */,
 				1646751427763B770067338E /* ConversationsViewController.swift in Sources */,
 				1646753027763E0F0067338E /* VideoPlayerViewController.swift in Sources */,
+				16BB6B6D2779F7C200AAEDD8 /* Extensions.swift in Sources */,
 				1646751027763B770067338E /* AppDelegate.swift in Sources */,
 				1646753427763E430067338E /* ProfileViewController.swift in Sources */,
 				1646751227763B770067338E /* SceneDelegate.swift in Sources */,
@@ -364,6 +376,8 @@
 				DEVELOPMENT_TEAM = 2UX7UJ9L78;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Texty/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow acces to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -376,7 +390,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.messenger.Texty;
+				PRODUCT_BUNDLE_IDENTIFIER = com.messenger.texty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -394,6 +408,8 @@
 				DEVELOPMENT_TEAM = 2UX7UJ9L78;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Texty/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow acces to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -406,7 +422,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.messenger.Texty;
+				PRODUCT_BUNDLE_IDENTIFIER = com.messenger.texty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
