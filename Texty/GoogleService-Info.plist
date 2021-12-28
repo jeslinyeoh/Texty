@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>551741109737-n568dnt4etq7trigcm1uiiv1l3oa75u0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.551741109737-n568dnt4etq7trigcm1uiiv1l3oa75u0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDvPadEXh-_q1_XUCHfLPxHFCDOxyVgcAs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>551741109737</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.messenger.texty</string>
+	<key>PROJECT_ID</key>
+	<string>texty-57e17</string>
+	<key>STORAGE_BUCKET</key>
+	<string>texty-57e17.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:551741109737:ios:75216e0367019b6a870778</string>
+	<key>DATABASE_URL</key>
+	<string>https://texty-57e17-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

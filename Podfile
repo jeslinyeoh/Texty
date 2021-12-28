@@ -6,5 +6,10 @@ target 'Texty' do
   use_frameworks!
 
   # Pods for Texty
+  
+  pod 'Firebase/Auth'
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
+  
 
 end
