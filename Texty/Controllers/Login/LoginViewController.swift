@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
 
@@ -85,8 +86,30 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let googleLoginButton = GIDSignInButton()
+    
+    private var loginObserver: NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // add notification observer to make sure that the AppDelegate can dismiss the login screen when the user continues with Google
+        // called from AppDelegate
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification,
+                                                               object: nil,
+                                                               queue: .main,
+                                                               using: { [weak self]_ in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            
+        })
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        
         title = "Log In"
         view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
@@ -112,11 +135,18 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
         scrollView.addSubview(FBloginButton)
+        scrollView.addSubview(googleLoginButton)
     }
     
+    deinit {
+        if let observer = loginObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         scrollView.frame = view.bounds
         let size = scrollView.width/1.5
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
@@ -140,11 +170,15 @@ class LoginViewController: UIViewController {
                                    height: 52)
         
         FBloginButton.frame = CGRect(x: 30,
-                                   y: loginButton.bottom + 10,
+                                   y: loginButton.bottom + 30,
                                    width: scrollView.width - 60,
                                    height: 52)
         
-        FBloginButton.frame.origin.y = loginButton.bottom + 20
+        googleLoginButton.frame = CGRect(x: 30,
+                                   y: FBloginButton.bottom + 10,
+                                   width: scrollView.width - 60,
+                                   height: 52)
+        
         
     }
     
@@ -288,7 +322,7 @@ extension LoginViewController: LoginButtonDelegate {
                     return
                 }
 
-                print("Successfully logged user in.")
+                print("Successfully logged user in with Facebook.")
 
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             })

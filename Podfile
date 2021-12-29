@@ -15,5 +15,7 @@ target 'Texty' do
   # Facebook
   pod 'FBSDKLoginKit'
   
+  # Google
+  pod 'GoogleSignIn', '5.0.2'
 
 end
