@@ -11,11 +11,19 @@ target 'Texty' do
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
+  pod 'Firebase/Storage'
 
   # Facebook
   pod 'FBSDKLoginKit'
   
   # Google
   pod 'GoogleSignIn', '5.0.2'
+
+  pod 'MessageKit'
+  pod 'JGProgressHUD'
+  pod 'SDWebImage'
+
+  # save stuff to the device
+  pod 'RealmSwift'
 
 end
