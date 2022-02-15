@@ -62,6 +62,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
             }
             return
         }
+        
+        guard let user = user else {
+            return
+        }
+        
+        print("Did sign in with Google: \(user)")
             
         guard let email = user.profile.email,
                 let firstName = user.profile.givenName,
@@ -69,13 +75,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
                   return
               }
         
-        
-        guard let user = user else {
-            return
-        }
+        // cache user email to retrieve info from Firestore 
+        UserDefaults.standard.set(email, forKey: "email")
         
         
-        print("Did sign in with Google: \(user)")
+        
         
         DatabaseManager.shared.userExists(with: email, completion: { exists in
             if !exists {

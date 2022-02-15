@@ -220,6 +220,10 @@ class LoginViewController: UIViewController {
             }
             
             let user = result.user
+            
+            // cache user email to retrieve info from Firestore
+            UserDefaults.standard.set(email, forKey: "email")
+            
             print("Logged in User: \(user)")
             
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
@@ -304,6 +308,9 @@ extension LoginViewController: LoginButtonDelegate {
                       return
             }
             
+            // cache user email to retrieve info from Firestore 
+            UserDefaults.standard.set(email, forKey: "email")
+
             
             let chatUser = ChatAppUser(firstName: firstName,
                                        lastName: lastName,
