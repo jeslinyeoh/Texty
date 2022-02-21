@@ -77,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         
         // cache user email to retrieve info from Firestore 
         UserDefaults.standard.set(email, forKey: "email")
+        UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
         
         
         

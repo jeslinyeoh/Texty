@@ -18,6 +18,7 @@ target 'Texty' do
   
   # Google
   pod 'GoogleSignIn', '5.0.2'
+  pod 'GoogleMLKit/SmartReply', '2.5.0'
 
   pod 'MessageKit'
   pod 'JGProgressHUD'

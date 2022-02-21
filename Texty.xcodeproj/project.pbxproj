@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1629D90227BD4F74004D79AB /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629D90127BD4F74004D79AB /* ConversationTableViewCell.swift */; };
 		1646751027763B770067338E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1646750F27763B770067338E /* AppDelegate.swift */; };
 		1646751227763B770067338E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1646751127763B770067338E /* SceneDelegate.swift */; };
 		1646751427763B770067338E /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1646751327763B770067338E /* ConversationsViewController.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1629D90127BD4F74004D79AB /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		1646750C27763B770067338E /* Texty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Texty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1646750F27763B770067338E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1646751127763B770067338E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				1646752827763C840067338E /* Storyboards */,
 				1646751827763B780067338E /* Assets.xcassets */,
+				1629D90127BD4F74004D79AB /* ConversationTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				1646751027763B770067338E /* AppDelegate.swift in Sources */,
 				1646753427763E430067338E /* ProfileViewController.swift in Sources */,
 				1646751227763B770067338E /* SceneDelegate.swift in Sources */,
+				1629D90227BD4F74004D79AB /* ConversationTableViewCell.swift in Sources */,
 				16C143FB277CBF5000DF6D4E /* ChatViewController.swift in Sources */,
 				1646752E27763E000067338E /* PhotoViewerViewController.swift in Sources */,
 				1695674D277DA4E900A03101 /* StorageManager.swift in Sources */,
