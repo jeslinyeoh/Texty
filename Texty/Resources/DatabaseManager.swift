@@ -239,10 +239,18 @@ extension DatabaseManager {
                 break
             case .attributedText(_):
                 break
-            case .photo(_):
+            case .photo(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                    message = targetUrlString
+                }
                 break
-            case .video(_):
+                
+            case .video(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                    message = targetUrlString
+                }
                 break
+                
             case .location(_):
                 break
             case .emoji(_):
@@ -368,10 +376,19 @@ extension DatabaseManager {
             break
         case .attributedText(_):
             break
-        case .photo(_):
+        case .photo(let mediaItem):
+            if let targetUrlString = mediaItem.url?.absoluteString {
+                message = targetUrlString
+            }
             break
-        case .video(_):
+            
+        case .video(let mediaItem):
+            if let targetUrlString = mediaItem.url?.absoluteString {
+                message = targetUrlString
+            }
+            
             break
+            
         case .location(_):
             break
         case .emoji(_):
@@ -481,7 +498,7 @@ extension DatabaseManager {
                       let content = dictionary["content"] as? String,
                       let senderEmail = dictionary["sender_email"] as? String,
                       let dateString = dictionary["date"] as? String,
-                      let date = ChatViewController.dateFormatter.date(from: dateString),
+                      //let date = ChatViewController.dateFormatter.date(from: dateString),
                       let type = dictionary["type"] as? String else {
                           return nil
                       }
@@ -504,6 +521,24 @@ extension DatabaseManager {
                     
                 }
                 
+                else if type == "video" {
+                    
+                    guard let videoUrl = URL(string: content),
+                          let placeHolder = UIImage(named: "video_placeholder"),
+                          let backgroundImage = UIImage(named: "black_image") else {
+                        
+                        return nil
+                    }
+                    
+                    let media = Media(url: videoUrl,
+                                      image: backgroundImage,
+                                      placeholderImage: placeHolder,
+                                      size: CGSize(width: 300, height: 300)) //should use width of device
+                    
+                    kind = .video(media)
+                    
+                }
+                
                 else {
                     kind = .text(content)
                 }
@@ -518,7 +553,7 @@ extension DatabaseManager {
                 
                 return Message(sender: sender,
                                messageId: messageID,
-                               sentDate: date,
+                               sentDate: Date(), // to prevent bugs for not loading other devices' message
                                kind: finalKind)
             })
             
@@ -576,10 +611,16 @@ extension DatabaseManager {
                 if let targetUrlString = mediaItem.url?.absoluteString {
                     message = targetUrlString
                 }
+                break
+                
+            case .video(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                    message = targetUrlString
+                }
                 
                 break
-            case .video(_):
-                break
+                
+                
             case .location(_):
                 break
             case .emoji(_):
