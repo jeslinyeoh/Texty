@@ -487,6 +487,7 @@
 				DEVELOPMENT_TEAM = 2UX7UJ9L78;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Texty/Info.plist;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send video messages.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow acces to select a photo for your profile.";
@@ -521,6 +522,7 @@
 				DEVELOPMENT_TEAM = 2UX7UJ9L78;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Texty/Info.plist;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send video messages.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow acces to select a photo for your profile.";

@@ -89,7 +89,9 @@ final class StorageManager {
                                    fileName: String,
                                    completion: @escaping UploadPictureCompletion){
         
-        storage.child("message_videos/\(fileName)").putFile(from: fileURL, metadata: nil, completion: {
+        let tempURL = createTemporaryURLforVideoFile(url: fileURL)
+        
+        storage.child("message_videos/\(fileName)").putFile(from: tempURL, metadata: nil, completion: {
             [weak self] metadata, error in
             
             guard error == nil else {
@@ -115,6 +117,24 @@ final class StorageManager {
     }
     
     
+    /*  This function will copy a video file to a temporary location so that it remains accessbile for further handling such as an upload to S3.
+         - Parameter url: This is the url of the media item.
+         - Returns: Return a new URL for the local copy of the vidoe file.
+         */
+        func createTemporaryURLforVideoFile(url: URL) -> URL {
+            /// Create the temporary directory.
+            let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            /// create a temporary file for us to copy the video to.
+            let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(url.lastPathComponent ?? "")
+            /// Attempt the copy.
+            do {
+                try FileManager().copyItem(at: url.absoluteURL, to: temporaryFileURL)
+            } catch {
+                print("There was an error copying the video file to the temporary location.")
+            }
+
+            return temporaryFileURL as URL
+        }
     
     public enum StorageErrors: Error {
         

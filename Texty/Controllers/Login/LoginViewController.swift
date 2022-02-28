@@ -152,10 +152,10 @@ class LoginViewController: UIViewController {
         
         scrollView.frame = view.bounds
         let size = scrollView.width/1.5
-        imageView.frame = CGRect(x: (scrollView.width-size)/2,
+        imageView.frame = CGRect(x: (scrollView.width-size/2)/2,
                                  y: 20,
-                                 width: size,
-                                 height: size)
+                                 width: size/2,
+                                 height: size/2)
         
         emailField.frame = CGRect(x: 30,
                                   y: imageView.bottom + 10,
@@ -339,49 +339,55 @@ extension LoginViewController: LoginButtonDelegate {
             UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
 
             
-            let chatUser = ChatAppUser(firstName: firstName,
-                                       lastName: lastName,
-                                       emailAddress: email)
+            DatabaseManager.shared.userExists(with: email, completion: { exists in
+                if !exists {
+                    // insert to database
             
-            DatabaseManager.shared.insertUser(with: chatUser, completion: { success in
-                if success {
+                    let chatUser = ChatAppUser(firstName: firstName,
+                                               lastName: lastName,
+                                               emailAddress: email)
                     
-                    guard let url = URL(string: pictureURL) else {
-                        return
-                    }
-                    
-                    print("Downloading data from FB image.")
-                    
-                    URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
-                        guard let data = data else {
-                            print("Failed to get data from Facebook.")
-                            return
+                    DatabaseManager.shared.insertUser(with: chatUser, completion: { success in
+                        if success {
+                            
+                            guard let url = URL(string: pictureURL) else {
+                                return
+                            }
+                            
+                            print("Downloading data from FB image.")
+                            
+                            URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
+                                guard let data = data else {
+                                    print("Failed to get data from Facebook.")
+                                    return
+                                }
+                                
+                                print("Got data from FB, uploading to Firebase...")
+                                
+                                // upload image
+                                let fileName = chatUser.profilePictureFileName
+                                // completion is (Result<String, Error>) -> Void
+                                StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName, completion: { result in
+                                    
+                                    switch result {
+                                    case .success(let  downloadURL):
+                                        
+                                        // save to cache
+                                        UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
+                                        print(downloadURL)
+                                        
+                                    case .failure(let error):
+                                        print("Storage manager (FB) error: \(error)")
+                                    }
+                                })
+                            }).resume()
+                            
                         }
                         
-                        print("Got data from FB, uploading to Firebase...")
-                        
-                        // upload image
-                        let fileName = chatUser.profilePictureFileName
-                        // completion is (Result<String, Error>) -> Void
-                        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName, completion: { result in
-
-                            switch result {
-                            case .success(let  downloadURL):
-
-                                // save to cache
-                                UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
-                                print(downloadURL)
-
-                            case .failure(let error):
-                                print("Storage manager (FB) error: \(error)")
-                            }
-                        })
-                    }).resume()
-                    
-                    
+                    })
                 }
             })
-
+            
             // so that Firebase can access the Facebook credentials
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
 
@@ -405,7 +411,7 @@ extension LoginViewController: LoginButtonDelegate {
             })
         }
 
-        
+                                              
     }
 
 

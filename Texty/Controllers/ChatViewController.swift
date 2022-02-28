@@ -127,6 +127,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         messagesCollectionView.delegate = self
+        messageInputBar.delegate = self
         setupInputButton()
     }
     
@@ -429,8 +430,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
 
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
-    
-    @objc
+
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         guard !text.replacingOccurrences(of: " ", with: "").isEmpty,
             let selfSender = self.selfSender,
