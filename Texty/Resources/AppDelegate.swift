@@ -12,7 +12,7 @@ import GoogleSignIn
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate{
     
     func application(
         _ application: UIApplication,
@@ -55,6 +55,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     }
     
     
+    
+
+}
+
+
+// MARK: - GIDSignInDelegate
+extension AppDelegate: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         guard error == nil else {
             if let error = error {
@@ -75,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
                   return
               }
         
-        // cache user email to retrieve info from Firestore 
+        // cache user email to retrieve info from Firestore
         UserDefaults.standard.set(email, forKey: "email")
         UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
     
@@ -158,6 +165,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
         print("Google user was disconnected.")
     }
     
-
 }
-

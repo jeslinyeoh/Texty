@@ -12,6 +12,8 @@ target 'Texty' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
 
   # Facebook
   pod 'FBSDKLoginKit'

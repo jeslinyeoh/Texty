@@ -9,21 +9,10 @@ import UIKit
 import FirebaseAuth
 import JGProgressHUD
 
-struct Conversation {
-    let id: String
-    let name: String
-    let otherUserEmail: String
-    let latestMessage: LatestMessage
-}
 
-struct LatestMessage {
-    let date: String
-    let text: String
-    let isRead: Bool
-}
-
-
-class ConversationsViewController: UIViewController {
+// other class cannot inherit from final class
+/// Controller tat shows list of conversation.
+final class ConversationsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -52,6 +41,7 @@ class ConversationsViewController: UIViewController {
     private var loginObserver: NSObjectProtocol?
 
     override func viewDidLoad() {
+
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
@@ -61,7 +51,6 @@ class ConversationsViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(noConversationsLabel)
         setupTableView()
-        fetchConversations()
         startListeningForConversations()
         
         loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification,
@@ -95,9 +84,13 @@ class ConversationsViewController: UIViewController {
             switch result {
             case.success(let conversations):
                 guard !conversations.isEmpty else {
+                    self?.tableView.isHidden = true
+                    self?.noConversationsLabel.isHidden = false
                     return
                 }
                 
+                self?.noConversationsLabel.isHidden = true
+                self?.tableView.isHidden = false
                 self?.conversations = conversations
                 
                 DispatchQueue.main.async {
@@ -105,6 +98,8 @@ class ConversationsViewController: UIViewController {
                 }
                 
             case.failure(let error):
+                self?.tableView.isHidden = true
+                self?.noConversationsLabel.isHidden = false
                 print("Failed to get convo: \(error)")
             }
             
@@ -191,6 +186,11 @@ class ConversationsViewController: UIViewController {
         
         // make tableView occupy the whole screen
         tableView.frame = view.bounds
+        
+        noConversationsLabel.frame = CGRect(x: 10,
+                                            y: (view.height-100)/2,
+                                            width: view.width - 20,
+                                            height: 100)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -214,10 +214,6 @@ class ConversationsViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-    }
-    
-    private func fetchConversations() {
-        tableView.isHidden = false
     }
 
 
@@ -270,23 +266,21 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            
-            
+        
             let conversationID = conversations[indexPath.row].id
             
             // begin delete
             tableView.beginUpdates()
+            self.conversations.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
             
-            DatabaseManager.shared.deleteConversation(conversationID: conversationID, completion: { [weak self] success in
+            DatabaseManager.shared.deleteConversation(conversationID: conversationID, completion: { success in
                 
-                if success {
-                    // update model
-                    self?.conversations.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .left)
+                if !success {
+                    print("Failed to delete conversation")
+
                 }
             })
-            
-            
             
             tableView.endUpdates()
         }

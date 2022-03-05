@@ -12,7 +12,7 @@ import GoogleSignIn
 import JGProgressHUD
 import MLKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
 
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -42,8 +42,7 @@ class LoginViewController: UIViewController {
         // add some space before the left side of the text in the text field
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         
         return field
     }()
@@ -63,7 +62,7 @@ class LoginViewController: UIViewController {
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
         
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         field.isSecureTextEntry = true
         
         return field
@@ -114,7 +113,7 @@ class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         title = "Log In"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
                                                             style: .done,
                                                             target: self,

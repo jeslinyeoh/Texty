@@ -9,13 +9,18 @@
 import Foundation
 import FirebaseDatabase
 import MessageKit
+import CoreLocation
 
-
+/// A Manager obejct to read and write data to Firebase Realtime Database
 final class DatabaseManager {
     
-    static let shared = DatabaseManager()
+    /// Shared instance of class
+    public static let shared = DatabaseManager()
     
     private let database = Database.database().reference()
+    
+    // Prevent user to not create instances of this class
+    private init() {}
     
     static func safeEmail(emailAddress: String) -> String {
         var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
@@ -28,6 +33,8 @@ final class DatabaseManager {
 
 extension DatabaseManager {
     
+    
+    /// Returns dictionary node at child path
     public func getDataFor(path: String, completion: @escaping (Result<Any, Error>) -> Void) {
         database.child("\(path)").observeSingleEvent(of: .value, with: {
             snapshot in
@@ -47,7 +54,11 @@ extension DatabaseManager {
 // MARK: - Account Management
 extension DatabaseManager {
     
-    /// Returns false if user already exists
+    /// Checks if users exists with given email
+    /// Parameters
+    /// - `email`: target email to be checked
+    /// - `completion`: Async closure to return with result
+    /// - Returns: False if user already exists
     public func userExists(with email: String,
                            completion: @escaping ((Bool)->Void)){
         
@@ -74,7 +85,13 @@ extension DatabaseManager {
         database.child(user.safeEmail).setValue([
             "first_name": user.firstName,
             "last_name": user.lastName
-        ], withCompletionBlock: { error, _ in
+        ], withCompletionBlock: { [weak self] error, _ in
+            
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
             guard error == nil else {
                 print("Failed to write to database")
                 completion(false)
@@ -84,7 +101,7 @@ extension DatabaseManager {
             
             
             // add to array of users
-            self.database.child("users").observeSingleEvent(of: .value, with: { snapshot in
+            strongSelf.database.child("users").observeSingleEvent(of: .value, with: { snapshot in
                 
                 // unwrap optional "value"
                 if var usersCollection = snapshot.value as? [[String: String]] {
@@ -98,7 +115,7 @@ extension DatabaseManager {
                     usersCollection.append(newElement)
                     
                     
-                    self.database.child("users").setValue(usersCollection, withCompletionBlock: { error, _ in
+                    strongSelf.database.child("users").setValue(usersCollection, withCompletionBlock: { error, _ in
                         
                         guard error == nil else {
                             completion(false)
@@ -120,7 +137,7 @@ extension DatabaseManager {
                         ]
                     ]
                     
-                    self.database.child("users").setValue(newCollection, withCompletionBlock: { error, _ in
+                    strongSelf.database.child("users").setValue(newCollection, withCompletionBlock: { error, _ in
                         
                         guard error == nil else {
                             completion(false)
@@ -135,6 +152,8 @@ extension DatabaseManager {
         })
     }
     
+    
+    /// Get all users from the database
     public func getAllUsers(completion: @escaping(Result<[[String:String]], Error>) -> Void) {
         
         database.child("users").observeSingleEvent(of: .value, with: { snapshot in
@@ -147,8 +166,19 @@ extension DatabaseManager {
         })
     }
     
+    
+    // to be edited
     public enum DatabaseError: Error {
         case failedToFetch
+        
+        public var localisedDescription: String {
+            
+            switch self {
+                
+            case .failedToFetch:
+                return "This means"
+            }
+        }
     }
     
 }
@@ -539,6 +569,21 @@ extension DatabaseManager {
                     
                 }
                 
+                else if type == "location" {
+                    
+                    let locationComponents = content.components(separatedBy: ",")
+                    
+                    guard let longitude = Double(locationComponents[0]),
+                        let latitude = Double(locationComponents[1]) else {
+                        return nil
+                    }
+                    
+                    let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
+                                            size: CGSize(width: 300, height: 300))
+                    kind = .location(location)
+                }
+                
+                
                 else {
                     kind = .text(content)
                 }
@@ -621,8 +666,12 @@ extension DatabaseManager {
                 break
                 
                 
-            case .location(_):
+            case .location(let locationData):
+                let location = locationData.location
+                message = "\(location.coordinate.longitude),\(location.coordinate.latitude)"
+                
                 break
+                
             case .emoji(_):
                 break
             case .audio(_):

@@ -9,7 +9,7 @@ import UIKit
 import JGProgressHUD
 import AVFoundation
 
-class NewConversationViewController: UIViewController {
+final class NewConversationViewController: UIViewController {
 
     
     // closure which takes in dictionary and return void
@@ -55,7 +55,7 @@ class NewConversationViewController: UIViewController {
         tableView.dataSource = self
         
         searchBar.delegate = self
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.topItem?.titleView = searchBar
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                             style: .done,
@@ -129,7 +129,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         spinner.show(in: view)
         
         
-        self.searchUsers(query: text)
+        searchUsers(query: text)
     }
     
     func searchUsers(query: String) {
@@ -170,9 +170,9 @@ extension NewConversationViewController: UISearchBarDelegate {
         
         let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
         
-        self.spinner.dismiss()
+        spinner.dismiss()
 
-        let results: [SearchResult] = self.users.filter({
+        let results: [SearchResult] = users.filter({
             
             // don't show current user
             guard let email = $0["email"] as? String,
@@ -206,20 +206,17 @@ extension NewConversationViewController: UISearchBarDelegate {
     
     func updateUI() {
         if results.isEmpty{
-            self.noResultsLabel.isHidden = false
-            self.tableView.isHidden = true
+            noResultsLabel.isHidden = false
+            tableView.isHidden = true
         }
         
         else {
-            self.noResultsLabel.isHidden = true
-            self.tableView.isHidden = false
-            self.tableView.reloadData()
+            noResultsLabel.isHidden = true
+            tableView.isHidden = false
+            tableView.reloadData()
         }
     }
 }
 
-struct SearchResult {
-    let name: String
-    let email: String
-}
+
 
