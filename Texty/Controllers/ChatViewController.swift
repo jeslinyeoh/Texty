@@ -31,6 +31,14 @@ final class ChatViewController: MessagesViewController {
     public let otherUserEmail: String
     private var conversationID: String?
     public var isNewConversation = false
+
+    private var txtButton1 = InputBarButtonItem()
+    private var txtButton2 = InputBarButtonItem()
+    private var txtButton3 = InputBarButtonItem()
+    
+    private var text1: String = ""
+    private var text2: String = ""
+    private var text3: String = ""
     
     private var messages = [Message]()
     private var selfSender: Sender? {
@@ -65,16 +73,6 @@ final class ChatViewController: MessagesViewController {
         super.viewDidLoad()
         view.backgroundColor = .red
         
-//        messages.append(Message(sender: selfSender,
-//                                messageId: "1",
-//                                sentDate: Date(),
-//                                kind: .text("Hello World Message.")))
-//
-//        messages.append(Message(sender: selfSender,
-//                                messageId: "1",
-//                                sentDate: Date(),
-//                                kind: .text("Hello World Message. Hello World Message.")))
-        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -82,8 +80,23 @@ final class ChatViewController: MessagesViewController {
         messagesCollectionView.delegate = self
         messageInputBar.delegate = self
         setupInputButton()
+        setupTextSuggestionButtons()
+ 
+        messageInputBar.inputTextView.autocorrectionType = .no
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateTextSuggestionButtons),
+                                               name: .didSuggestionsUpdateNotification,
+                                               object: nil)
+                                                                     
+
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        
+    }
+
     
     private func setupInputButton() {
         let button = InputBarButtonItem()
@@ -95,8 +108,74 @@ final class ChatViewController: MessagesViewController {
         
         messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
+
         
     }
+    
+    private func setupTextSuggestionButtons() {
+        let screenSize: CGRect = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        
+        
+        txtButton1.setSize(CGSize(width: screenWidth/3-15, height: 35), animated: false)
+        txtButton1.setTitle("", for: .normal)
+        txtButton1.layer.borderColor = UIColor.black.cgColor
+        txtButton1.addTarget(self,
+                             action: #selector(textSuggestionButton1Pressed),
+                             for: .touchUpInside)
+
+        txtButton2.setSize(CGSize(width: screenWidth/3-15, height: 35), animated: false)
+        txtButton2.setTitle("", for: .normal)
+        txtButton2.addTarget(self,
+                             action: #selector(textSuggestionButton2Pressed),
+                             for: .touchUpInside)
+
+        txtButton3.setSize(CGSize(width: screenWidth/3-15, height: 35), animated: false)
+        txtButton3.setTitle("", for: .normal)
+        txtButton3.addTarget(self,
+                             action: #selector(textSuggestionButton3Pressed),
+                             for: .touchUpInside)
+        
+        messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
+        messageInputBar.setStackViewItems([txtButton1, txtButton2, txtButton3], forStack: .bottom, animated: false)
+    }
+    
+    
+    @objc private func updateTextSuggestionButtons(notification: NSNotification) {
+        
+        guard let suggestions = notification.object as? NSDictionary,
+            let text1 = suggestions["0"] as? String,
+                let text2 = suggestions["1"] as? String,
+                let text3 = suggestions["2"] as? String else {
+            return
+        }
+        
+        self.text1 = text1
+        self.text2 = text2
+        self.text3 = text3
+        
+        DispatchQueue.main.async {
+            self.txtButton1.setTitle(text1, for: .normal)
+            self.txtButton2.setTitle(text2, for: .normal)
+            self.txtButton3.setTitle(text3, for: .normal)
+        }
+        
+    }
+    
+    
+    @objc private func textSuggestionButton1Pressed(){
+        messageInputBar.inputTextView.text.append(text1)
+    }
+    
+    @objc private func textSuggestionButton2Pressed(){
+        messageInputBar.inputTextView.text.append(text2)
+    }
+    
+    @objc private func textSuggestionButton3Pressed(){
+        messageInputBar.inputTextView.text.append(text3)
+    }
+    
+    
     
     private func presentInputActionSheet() {
         
@@ -181,11 +260,9 @@ final class ChatViewController: MessagesViewController {
             })
         }
         
-        
-        
-        
         navigationController?.pushViewController(vc, animated: true)
     }
+    
     
     private func presentPhotoInputActionsheet(){
         
@@ -283,7 +360,7 @@ final class ChatViewController: MessagesViewController {
                     self?.messagesCollectionView.reloadDataAndKeepOffset()
                     
                     if shouldScrollToBottom {
-                        self?.messagesCollectionView.scrollToBottom()
+                        self?.messagesCollectionView.scrollToLastItem()
                     }
 
                 }
@@ -303,6 +380,7 @@ final class ChatViewController: MessagesViewController {
         if let conversationID = conversationID {
             listenForMessages(id: conversationID, shouldScrollToBottom: true)
         }
+        
     }
 
 }
@@ -519,7 +597,10 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         
         return newIdentifier
     }
+    
+    
 }
+
 
 
 

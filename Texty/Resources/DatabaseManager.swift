@@ -11,13 +11,15 @@ import FirebaseDatabase
 import MessageKit
 import CoreLocation
 
-/// A Manager obejct to read and write data to Firebase Realtime Database
+/// A Manager object to read and write data to Firebase Realtime Database
 final class DatabaseManager {
     
     /// Shared instance of class
     public static let shared = DatabaseManager()
     
     private let database = Database.database().reference()
+    
+    public var isLocalUser = false
     
     // Prevent user to not create instances of this class
     private init() {}
@@ -520,6 +522,13 @@ extension DatabaseManager {
                 return
             }
             
+            guard let localUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+                return
+            }
+            
+            let safeLocalUserEmail = DatabaseManager.safeEmail(emailAddress: localUserEmail)
+            
+            
             let messages: [Message] = value.compactMap({ dictionary in
                 
                 guard let name = dictionary["name"] as? String,
@@ -532,6 +541,7 @@ extension DatabaseManager {
                       let type = dictionary["type"] as? String else {
                           return nil
                       }
+                
                 
                 var kind: MessageKind?
                 if type == "photo" {
@@ -586,6 +596,11 @@ extension DatabaseManager {
                 
                 else {
                     kind = .text(content)
+                    
+                    // check if current message is sent by local user and send it to the Smart Reply Manager
+                    self.isLocalUser = safeLocalUserEmail == senderEmail
+                    
+                    SmartReplyManager.shared.inputToSmartReply(text: content, userID: senderEmail, isLocalUser: self.isLocalUser)
                 }
                 
                 guard let finalKind = kind else {
@@ -601,6 +616,9 @@ extension DatabaseManager {
                                sentDate: Date(), // to prevent bugs for not loading other devices' message
                                kind: finalKind)
             })
+            
+            SmartReplyManager.shared.getSmartReplies()
+            SmartReplyManager.shared.clearConversation()
             
             completion(.success(messages))
             

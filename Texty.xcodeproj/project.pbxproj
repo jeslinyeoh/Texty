@@ -30,6 +30,7 @@
 		16BB6B6D2779F7C200AAEDD8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB6B6C2779F7C200AAEDD8 /* Extensions.swift */; };
 		16C143FB277CBF5000DF6D4E /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C143FA277CBF5000DF6D4E /* ChatViewController.swift */; };
 		16C3FBF027CA90AC00370FFF /* NewConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C3FBEF27CA90AC00370FFF /* NewConversationCell.swift */; };
+		16F86F9427D397BA001928A0 /* SmartReplyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F86F9327D397BA001928A0 /* SmartReplyManager.swift */; };
 		960ED263B9FA3E5E3AAD684D /* Pods_Texty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3DCB3F303160126472A26A8 /* Pods_Texty.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		16BB6B6C2779F7C200AAEDD8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		16C143FA277CBF5000DF6D4E /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		16C3FBEF27CA90AC00370FFF /* NewConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationCell.swift; sourceTree = "<group>"; };
+		16F86F9327D397BA001928A0 /* SmartReplyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartReplyManager.swift; sourceTree = "<group>"; };
 		A1693F13AA1A7E6DC01FF5D4 /* Pods-Texty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Texty.debug.xcconfig"; path = "Target Support Files/Pods-Texty/Pods-Texty.debug.xcconfig"; sourceTree = "<group>"; };
 		AF1127DCB0C7BDEAF36BFB33 /* Pods-Texty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Texty.release.xcconfig"; path = "Target Support Files/Pods-Texty/Pods-Texty.release.xcconfig"; sourceTree = "<group>"; };
 		B3DCB3F303160126472A26A8 /* Pods_Texty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Texty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +161,7 @@
 				16BB6B6C2779F7C200AAEDD8 /* Extensions.swift */,
 				167462C4277B0D510004B92D /* DatabaseManager.swift */,
 				1695674C277DA4E900A03101 /* StorageManager.swift */,
+				16F86F9327D397BA001928A0 /* SmartReplyManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				1646752C27763DD70067338E /* RegisterViewController.swift in Sources */,
 				1646753227763E390067338E /* NewConversationViewController.swift in Sources */,
 				1646751427763B770067338E /* ConversationsViewController.swift in Sources */,
+				16F86F9427D397BA001928A0 /* SmartReplyManager.swift in Sources */,
 				16BB6B6D2779F7C200AAEDD8 /* Extensions.swift in Sources */,
 				162787CF27D10246004235BE /* SearchResult.swift in Sources */,
 				1646751027763B770067338E /* AppDelegate.swift in Sources */,

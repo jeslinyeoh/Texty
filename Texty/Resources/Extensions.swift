@@ -40,6 +40,7 @@ extension Notification.Name {
     
     /// Notfication when user logs in
     static let didLogInNotification = Notification.Name("didLogInNotification")
+    static let didSuggestionsUpdateNotification = Notification.Name("didSuggestionsUpdateNotification")
 }
 
 
