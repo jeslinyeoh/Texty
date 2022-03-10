@@ -23,6 +23,11 @@ final class SmartReplyManager {
     /// - Returns null
     public func inputToSmartReply(text: String, userID: String, isLocalUser: Bool) {
         
+        let lowerCasedSentence = text.lowercased()
+        let words = ["aduh", "what", "happened"]
+        
+        let translatedText = SlangsManager.shared.translateSlangs(word_array: words)
+        
         let message = TextMessage(
             text: text,
             timestamp: Date().timeIntervalSince1970,
