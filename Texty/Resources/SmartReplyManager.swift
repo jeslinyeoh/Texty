@@ -14,6 +14,7 @@ final class SmartReplyManager {
     
     var conversation: [TextMessage] = []
     
+    static var count = 0
     
     /// Take in text Strings to be fed to the Google Smart Reply API
     /// Parameter
@@ -21,26 +22,53 @@ final class SmartReplyManager {
     /// - `userID`: sender email
     /// - `isLocalUser`: check if sender is local user
     /// - Returns null
-    public func inputToSmartReply(text: String, userID: String, isLocalUser: Bool) {
+    public func inputToSmartReply(text: String, userID: String, isLocalUser: Bool, date: Date, totalMessages: Int) {
         
-        let lowerCasedSentence = text.lowercased()
-        let words = ["aduh", "what", "happened"]
+        var lowerCasedSentence = text.lowercased()
         
-        let translatedText = SlangsManager.shared.translateSlangs(word_array: words)
+        LanguageManager.shared.translateLanguage(sentence: lowerCasedSentence, completion: { [weak self] result in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            switch result {
+            case.failure(let error):
+                print("Language Translator error, failed to get translated words: \(error)")
+            
+            case .success(let translatedWords):
+                
+                print("translated words in main: \(translatedWords)")
+                let translatedText = SlangsManager.shared.translateSlangs(word_array: translatedWords)
+                
+                let message = TextMessage(
+                    text: translatedText,
+                    timestamp: date.timeIntervalSince1970,
+                    userID: userID,
+                    isLocalUser: isLocalUser)
+                
+                strongSelf.conversation.append(message)
+                
+                SmartReplyManager.count += 1
+                
+                if SmartReplyManager.count == totalMessages - 1 {
+                    SmartReplyManager.count = 0
+                    strongSelf.getSmartReplies()
+                    strongSelf.clearConversation()
+                }
+                
+            }
         
-        let message = TextMessage(
-            text: text,
-            timestamp: Date().timeIntervalSince1970,
-            userID: userID,
-            isLocalUser: isLocalUser)
-        
-        conversation.append(message)
+        })
+
 
     }
     
     
     public func getSmartReplies() {
         SmartReply.smartReply().suggestReplies(for: conversation) { result, error in
+            
+            print("reach smart reply")
             guard error == nil, let result = result else {
                 return
             }
@@ -62,13 +90,9 @@ final class SmartReplyManager {
                 
                 NotificationCenter.default.post(name: .didSuggestionsUpdateNotification, object: dict)
             }
-            
-            
         }
-        
-        
-
     }
+    
     
     public func clearConversation(){
         conversation = []

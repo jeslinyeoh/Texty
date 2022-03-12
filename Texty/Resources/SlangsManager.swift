@@ -62,6 +62,7 @@ class SlangsManager {
             "beh": "can't",
             "belanja": "treat",
             "belum": "haven't",
+            "bo": "or not",
             "bobian": "no choice",
             "bojio": "didn't invite",
             "bosan": "boring",
@@ -478,7 +479,7 @@ class SlangsManager {
         
         var translatedSentence = words.joined(separator: " ")
         
-        print("translated_text:\(translatedSentence)")
+        print("translated_slangs_text:\(translatedSentence)")
         return translatedSentence
     }
     

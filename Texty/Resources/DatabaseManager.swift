@@ -528,7 +528,6 @@ extension DatabaseManager {
             
             let safeLocalUserEmail = DatabaseManager.safeEmail(emailAddress: localUserEmail)
             
-            
             let messages: [Message] = value.compactMap({ dictionary in
                 
                 guard let name = dictionary["name"] as? String,
@@ -537,7 +536,7 @@ extension DatabaseManager {
                       let content = dictionary["content"] as? String,
                       let senderEmail = dictionary["sender_email"] as? String,
                       let dateString = dictionary["date"] as? String,
-                      //let date = ChatViewController.dateFormatter.date(from: dateString),
+                      let date = ChatViewController.dateFormatter.date(from: dateString),
                       let type = dictionary["type"] as? String else {
                           return nil
                       }
@@ -600,7 +599,8 @@ extension DatabaseManager {
                     // check if current message is sent by local user and send it to the Smart Reply Manager
                     self.isLocalUser = safeLocalUserEmail == senderEmail
                     
-                    SmartReplyManager.shared.inputToSmartReply(text: content, userID: senderEmail, isLocalUser: self.isLocalUser)
+                    print("messages count: \(value.count)")
+                    SmartReplyManager.shared.inputToSmartReply(text: content, userID: senderEmail, isLocalUser: self.isLocalUser, date: date, totalMessages: value.count)
                 }
                 
                 guard let finalKind = kind else {
@@ -611,14 +611,12 @@ extension DatabaseManager {
                                     senderId: senderEmail,
                                     displayName: name)
                 
+                
                 return Message(sender: sender,
                                messageId: messageID,
                                sentDate: Date(), // to prevent bugs for not loading other devices' message
                                kind: finalKind)
             })
-            
-            SmartReplyManager.shared.getSmartReplies()
-            SmartReplyManager.shared.clearConversation()
             
             completion(.success(messages))
             
