@@ -2,7 +2,8 @@
 //  NewConversationCell.swift
 //  Texty
 //
-//  Created by Jeslin Yeoh on 27/02/2022.
+//  Created by Jeslin Yeoh on 27/02/2022
+//  following iOS Academy's YouTube tutorial.
 //
 
 import Foundation

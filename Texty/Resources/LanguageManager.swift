@@ -3,7 +3,7 @@
 //  Texty
 //
 //  Created by Jeslin Yeoh on 08/03/2022.
-//
+//  This class parses a sentence into a word array and translates those words to English if there are other languages (eg. Chinese, Malay, Indonesian, Hindi) identified.
 
 import Foundation
 import NaturalLanguage
@@ -18,12 +18,12 @@ class LanguageManager {
     let CNtoENoptions = TranslatorOptions(sourceLanguage: .chinese, targetLanguage: .english)
     let MStoENoptions = TranslatorOptions(sourceLanguage: .malay, targetLanguage: .english)
     let IDtoENoptions = TranslatorOptions(sourceLanguage: .indonesian, targetLanguage: .english)
-    let HItoENoptions = TranslatorOptions(sourceLanguage: .hindi, targetLanguage: .english)
+    let TMtoENoptions = TranslatorOptions(sourceLanguage: .tamil, targetLanguage: .english)
     
     var chineseEnglishTranslator: Translator!
     var malayEnglishTranslator: Translator!
     var indonesianEnglishTranslator: Translator!
-    var hindiEnglishTranslator: Translator!
+    var tamilEnglishTranslator: Translator!
     
     public static var shared = LanguageManager()
     
@@ -31,7 +31,7 @@ class LanguageManager {
         chineseEnglishTranslator = Translator.translator(options: CNtoENoptions)
         malayEnglishTranslator = Translator.translator(options: MStoENoptions)
         indonesianEnglishTranslator = Translator.translator(options: IDtoENoptions)
-        hindiEnglishTranslator = Translator.translator(options: HItoENoptions)
+        tamilEnglishTranslator = Translator.translator(options: TMtoENoptions)
         
         let conditions = ModelDownloadConditions(
             allowsCellularAccess: false,
@@ -50,7 +50,7 @@ class LanguageManager {
             guard error == nil else { return }
         }
         
-        hindiEnglishTranslator.downloadModelIfNeeded(with: conditions) { error in
+        tamilEnglishTranslator.downloadModelIfNeeded(with: conditions) { error in
             guard error == nil else { return }
         }
         
@@ -58,7 +58,7 @@ class LanguageManager {
     
     
     /// tokenise the sentence into a word array
-    private func tokeniseSentence(sentence: String) -> [String]{
+    public func tokeniseSentence(sentence: String) -> [String]{
 
         var words: [String] = []
         tokenizer.string = sentence
@@ -72,7 +72,7 @@ class LanguageManager {
         return words
     }
     
-    
+    /// take an array of words as an input and output the language of each word
     private func getLanguage(words: [String], completion: @escaping (Result<[String], Error>) -> Void) {
         
         let languageId = LanguageIdentification.languageIdentification(options: options)
@@ -91,13 +91,13 @@ class LanguageManager {
                 }
                 
                 if let languageCode = languageCode, languageCode != "und" {
-                    print("\(word) - Identified Language: \(languageCode)")
+                    //print("\(word) - Identified Language: \(languageCode)")
                     languageIDs.append(languageCode)
-                    //print(languageIDs)
+
                 }
                 
                 else {
-                    print("\(word) - No language was identified")
+                    //print("\(word) - No language was identified")
                     languageIDs.append("NA")
                 }
                 
@@ -108,7 +108,8 @@ class LanguageManager {
                 
                 count += 1
             }
-                        
+            
+            print(languageIDs)
         }
  
     }
@@ -168,8 +169,8 @@ class LanguageManager {
                 
                 let checkedIDs = strongSelf.handleChineseInterjection(words: words, languageIDs: languageIDs)
                 let combinedWords = strongSelf.combineSameLanguageWords(words: words, languageIDs: checkedIDs)
-                print("languageIDs : \(languageIDs)")
-                print("combinedWords: \(combinedWords)")
+                //print("languageIDs : \(languageIDs)")
+                //print("combinedWords: \(combinedWords)")
                 
                 
                 strongSelf.getLanguage(words: combinedWords, completion: { [weak self] result in
@@ -188,8 +189,8 @@ class LanguageManager {
 
                         let combinedWords2 = strongSelf.combineSameLanguageWords(words: combinedWords, languageIDs: languageIDs2)
                         
-                        print("languageIDs 2: \(languageIDs2)")
-                        print("combinedWords 2: \(combinedWords2)")
+                        //print("languageIDs 2: \(languageIDs2)")
+                        //print("combinedWords 2: \(combinedWords2)")
                         
                         strongSelf.translateWords(words: combinedWords2, languageIDs: languageIDs2, completion: { translatedWords in
                             
@@ -213,9 +214,7 @@ class LanguageManager {
         
         for _ in words {
 
-            print("count: \(count), words.count: \(words.count)")
-            
-            
+            //print("count: \(count), words.count: \(words.count)")
             //print("languageID for \(count): \(languageIDs[count])")
             
             if languageIDs[count] == "en" {
@@ -232,7 +231,7 @@ class LanguageManager {
             if languageIDs[count] == "zh" {
                 translateChinese(word: words[count], completion: { translatedText in
                     translatedWords.append(translatedText)
-                    print("translated text (zh): \(translatedText)")
+                    //print("translated text (zh): \(translatedText)")
                     count += 1
                     
                     if count == words.count {
@@ -244,7 +243,7 @@ class LanguageManager {
             else if languageIDs[count] == "ms" {
                 translateMalay(word: words[count], completion: { translatedText in
                     translatedWords.append(translatedText)
-                    print("translated text (ms): \(translatedText)")
+                    //print("translated text (ms): \(translatedText)")
                     count += 1
                     
                     if count == words.count {
@@ -256,7 +255,7 @@ class LanguageManager {
             else if languageIDs[count] == "id" {
                 translateIndonesian(word: words[count], completion: { translatedText in
                     translatedWords.append(translatedText)
-                    print("translated text (id): \(translatedText)")
+                    //print("translated text (id): \(translatedText)")
                     count += 1
                     
                     if count == words.count {
@@ -265,10 +264,10 @@ class LanguageManager {
                 })
             }
             
-            else if languageIDs[count] == "hi" {
-                translateHindi(word: words[count], completion: { translatedText in
+            else if languageIDs[count] == "ta" {
+                translateTamil(word: words[count], completion: { translatedText in
                     translatedWords.append(translatedText)
-                    print("translated text (hi): \(translatedText)")
+                    //print("translated text (hi): \(translatedText)")
                     count += 1
                     
                     if count == words.count {
@@ -322,9 +321,9 @@ class LanguageManager {
         }
     }
 
-    private func translateHindi(word: String, completion: @escaping (String) -> Void) {
+    private func translateTamil(word: String, completion: @escaping (String) -> Void) {
         
-        hindiEnglishTranslator.translate(word) { translatedText, error in
+        tamilEnglishTranslator.translate(word) { translatedText, error in
             guard error == nil, let translatedText = translatedText else { return }
             
             completion(translatedText)
@@ -345,8 +344,7 @@ class LanguageManager {
             
             count += 1
         }
-        
-        print("langIDs: \(langIDs)")
+
         return langIDs
     }
 }

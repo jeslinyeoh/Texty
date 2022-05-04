@@ -26,7 +26,5 @@ target 'Texty' do
   pod 'JGProgressHUD'
   pod 'SDWebImage'
 
-  # save stuff to the device
-  pod 'RealmSwift'
 
 end

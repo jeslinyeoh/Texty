@@ -2,8 +2,9 @@
 //  SceneDelegate.swift
 //  Texty
 //
-//  Created by Jeslin Yeoh on 25/12/2021.
-//
+//  Created by Jeslin Yeoh on 25/12/2021
+//  following iOS Academy's YouTube tutorial.
+//  
 
 import UIKit
 import FBSDKCoreKit

@@ -2,8 +2,10 @@
 //  ChatViewController.swift
 //  Texty
 //
-//  Created by Jeslin Yeoh on 30/12/2021.
+//  Created by Jeslin Yeoh on 30/12/2021
+//  following iOS Academy's YouTube tutorial.
 //
+//  Modified by Jeslin Yeoh in Mar 2022.
 
 import UIKit
 import MessageKit

@@ -2,9 +2,12 @@
 //  DatabaseManager.swift
 //  Texty
 //
-//  Created by Jeslin Yeoh on 28/12/2021.
+//  Created by Jeslin Yeoh on 28/12/2021
+//  following iOS Academy's YouTube tutorial.
 //
-// Interact with Firebase Realtime Database
+//  Modified by Jeslin Yeoh in Feb 2022.
+//
+//  Interact with Firebase Realtime Database
 
 import Foundation
 import FirebaseDatabase

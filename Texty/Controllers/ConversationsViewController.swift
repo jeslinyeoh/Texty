@@ -1,8 +1,9 @@
 //
-//  ViewController.swift
+//  ConversationsViewController.swift
 //  Texty
 //
-//  Created by Jeslin Yeoh on 25/12/2021.
+//  Created by Jeslin Yeoh on 25/12/2021
+//  following iOS Academy's YouTube tutorial..
 //
 
 import UIKit
@@ -11,7 +12,7 @@ import JGProgressHUD
 
 
 // other class cannot inherit from final class
-/// Controller tat shows list of conversation.
+/// Controller that shows list of conversation.
 final class ConversationsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)

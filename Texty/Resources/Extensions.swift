@@ -2,7 +2,8 @@
 //  Extensions.swift
 //  Texty
 //
-//  Created by Jeslin Yeoh on 27/12/2021.
+//  Created by Jeslin Yeoh on 27/12/2021
+//  following iOS Academy's YouTube tutorial.
 //
 
 import Foundation

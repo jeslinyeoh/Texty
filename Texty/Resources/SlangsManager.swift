@@ -3,10 +3,9 @@
 //  Texty
 //
 //  Created by Jeslin Yeoh on 06/03/2022.
-//
+//  This class translates Malaysian slangs to normal English phrases if the sentence contains any identifiable slangs.
 
 import Foundation
-import NaturalLanguage
 
 class SlangsManager {
     
@@ -64,10 +63,11 @@ class SlangsManager {
             "belum": "haven't",
             "bo": "or not",
             "bobian": "no choice",
+            "bocap": "don't care",
             "bojio": "didn't invite",
             "bosan": "boring",
             "btw": "by the way",
-            "bungkus": "take away"
+            "bungkus": "takeaway"
         ]
         
         cSlangs = [
@@ -89,6 +89,7 @@ class SlangsManager {
             "dah": "already",
             "dapao": "takeaway",
             "dapau": "takeaway",
+            "dddd": "if you know, you know",
             "dei": "bro",
             "diam": "shut up",
             "diamlah": "shut up",
@@ -99,12 +100,15 @@ class SlangsManager {
         ]
         
         eSlangs = [
-            "eksyen": "show off"
+            "eksyen": "show off",
+            "entahlah": "I don't know"
         ]
         
         fSlangs = [
             "fuyoh": "I'm impressed",
             "fuiseh": "I'm impressed",
+            "fuiyo": "I'm impressed",
+            "fuiyoh": "I'm impressed",
             "ffk": "backout last minute",
             "fong fai kei": "backout last minute",
             "fong fei kei": "backout last minute",
@@ -122,6 +126,7 @@ class SlangsManager {
             "ggwp": "good game well played",
             "glhf": "good luck have fun",
             "gostan": "reverse",
+            "gtg": "got to go",
             "gua": "I think",
             "guailou": "westerner",
             "gungho": "motivated"
@@ -136,7 +141,9 @@ class SlangsManager {
         
         iSlangs = [
             "ic": "I see",
-            "icic": "I see I see"
+            "icic": "I see I see",
+            "idk": "I don't know",
+            "iykyk": "if you know, you know"
         ]
         
         jSlangs = [
@@ -147,7 +154,8 @@ class SlangsManager {
             "jialat": "so screwed",
             "jinjia": "very",
             "jio": "invite",
-            "jom": "let's go"
+            "jom": "let's go",
+            "jor": "already"
         ]
         
         kSlangs = [
@@ -158,6 +166,7 @@ class SlangsManager {
             "kau": "you",
             "kautim": "completed",
             "kena": "get",
+            "kepo": "busybody",
             "kiasi": "afraid to die",
             "kiasu": "afraid to losing out",
             "kisiao": "crazy",
@@ -166,7 +175,7 @@ class SlangsManager {
         ]
         
         lSlangs = [
-            "lagi": "also",
+            "lagi": "else",
             "lang": "people",
             "lari": "run",
             "laugh die me": "so funny",
@@ -199,7 +208,7 @@ class SlangsManager {
         ]
         
         oSlangs = [
-            "oi": "hey you",
+            "oi": "hey",
             "omai": "oh my",
             "omo": "oh my",
             "onz": "good to go",
@@ -235,6 +244,7 @@ class SlangsManager {
         tSlangs = [
             "tabao": "takeaway",
             "tabau": "takeaway",
+            "takkan": "no way",
             "takleh": "cannot",
             "takpe": "it's okay",
             "tapao": "takeaway",
@@ -262,14 +272,16 @@ class SlangsManager {
         ]
         
         xSlangs = [
-            "xiao": "small",
+            "xiao": "crazy",
             "xleh": "cannot"
         ]
         
         ySlangs = [
-            "yumcha": "hangout",
+            "ya": "yes",
+            "yakah": "really?",
             "yer": "disgusting",
-            "yakah": "really?"
+            "yumcha": "hangout",
+            "yyds": "forever God",
         ]
         
         zSlangs = [
@@ -281,9 +293,9 @@ class SlangsManager {
     
     public func translateSlangs(word_array: [String]) -> String {
         
-        var words = [String]()
-        
-        words = word_array
+        let input_sentence = word_array.joined(separator: " ")
+        var words = LanguageManager.shared.tokeniseSentence(sentence: input_sentence)
+
         
         var index = -1
         

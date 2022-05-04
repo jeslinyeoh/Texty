@@ -2,7 +2,8 @@
 //  LocationPickerViewController.swift
 //  Texty
 //
-//  Created by Jeslin Yeoh on 01/03/2022.
+//  Created by Jeslin Yeoh on 01/03/2022
+//  following iOS Academy's YouTube tutorial.
 //
 
 import UIKit
