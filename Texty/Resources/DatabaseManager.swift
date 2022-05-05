@@ -602,7 +602,7 @@ extension DatabaseManager {
                     // check if current message is sent by local user and send it to the Smart Reply Manager
                     self.isLocalUser = safeLocalUserEmail == senderEmail
                     
-                    print("messages count: \(value.count)")
+                    // print("messages count: \(value.count)")
                     SmartReplyManager.shared.inputToSmartReply(text: content, userID: senderEmail, isLocalUser: self.isLocalUser, date: date, totalMessages: value.count)
                 }
                 

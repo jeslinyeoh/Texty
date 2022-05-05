@@ -3,7 +3,7 @@
 //  Texty
 //
 //  Created by Jeslin Yeoh on 08/03/2022.
-//  This class parses a sentence into a word array and translates those words to English if there are other languages (eg. Chinese, Malay, Indonesian, Hindi) identified.
+//  This class parses a sentence into a word array and translates those words to English if there are other languages (eg. Chinese, Malay, Indonesian, Tamil) identified.
 
 import Foundation
 import NaturalLanguage
@@ -57,7 +57,7 @@ class LanguageManager {
     }
     
     
-    /// tokenise the sentence into a word array
+    /// Tokenise the sentence into a word array
     public func tokeniseSentence(sentence: String) -> [String]{
 
         var words: [String] = []
@@ -72,7 +72,7 @@ class LanguageManager {
         return words
     }
     
-    /// take an array of words as an input and output the language of each word
+    /// Take an array of words as an input and output the language of each word
     private func getLanguage(words: [String], completion: @escaping (Result<[String], Error>) -> Void) {
         
         let languageId = LanguageIdentification.languageIdentification(options: options)
@@ -147,7 +147,7 @@ class LanguageManager {
     }
     
     
-    /// get language id
+    /// Get language id for each word in the sentence
     public func translateLanguage(sentence: String, completion: @escaping (Result<[String], Error>) -> Void) {
         
         let words = tokeniseSentence(sentence: sentence)
@@ -206,6 +206,7 @@ class LanguageManager {
     }
     
     
+    /// Translates other language phrases in a word array to English
     private func translateWords(words: [String], languageIDs: [String], completion: @escaping ([String]) -> Void) {
                 
         var count = 0

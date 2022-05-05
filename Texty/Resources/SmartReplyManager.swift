@@ -3,7 +3,7 @@
 //  Texty
 //
 //  Created by Jeslin Yeoh on 05/03/2022.
-//  This class is called when a message is sent/ received to process the text input and produce text suggestions.
+//  This class is called when a message is sent/ received to process the text input and produce reply suggestions.
 
 import Foundation
 import MLKit
@@ -14,9 +14,10 @@ final class SmartReplyManager {
     
     var conversation: [TextMessage] = []
     
+    // Keep track of the number of messages coming in.
     static var count = 0
     
-    /// Take in text Strings to be fed to the Google Smart Reply API
+    /// Take in text Strings to be fed into the Google ML Kit's Smart Reply API
     /// Parameter
     /// - `text`: message
     /// - `userID`: sender email
@@ -26,6 +27,7 @@ final class SmartReplyManager {
         
         var lowerCasedSentence = text.lowercased()
         
+        // use completion handler so that the next code is executed only after the result is returned
         LanguageManager.shared.translateLanguage(sentence: lowerCasedSentence, completion: { [weak self] result in
             
             guard let strongSelf = self else {
@@ -50,7 +52,8 @@ final class SmartReplyManager {
                 strongSelf.conversation.append(message)
                 
                 SmartReplyManager.count += 1
-
+                
+                // Get Smart replies if the whole conversation is successfully inputted
                 if SmartReplyManager.count == totalMessages  {
                     strongSelf.getSmartReplies()
                     SmartReplyManager.count = 0
@@ -66,6 +69,7 @@ final class SmartReplyManager {
     }
     
     
+    /// Get reply suggestions from Google ML Kit's Smart Reply API
     public func getSmartReplies() {
         SmartReply.smartReply().suggestReplies(for: conversation) { result, error in
             

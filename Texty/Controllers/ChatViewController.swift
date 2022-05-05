@@ -5,7 +5,8 @@
 //  Created by Jeslin Yeoh on 30/12/2021
 //  following iOS Academy's YouTube tutorial.
 //
-//  Modified by Jeslin Yeoh in Mar 2022.
+//  Modified by Jeslin Yeoh in Mar 2022
+//  to include 3 text suggestion buttons on top of the text input field.
 
 import UIKit
 import MessageKit
@@ -114,6 +115,7 @@ final class ChatViewController: MessagesViewController {
         
     }
     
+    /// Set up 3 buttons on top of the input text field
     private func setupTextSuggestionButtons() {
         let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
@@ -143,6 +145,7 @@ final class ChatViewController: MessagesViewController {
     }
     
     
+    /// Update the content of the 3 Text Suggestion Buttons when a message is received
     @objc private func updateTextSuggestionButtons(notification: NSNotification) {
         
         guard let suggestions = notification.object as? NSDictionary,
@@ -164,6 +167,9 @@ final class ChatViewController: MessagesViewController {
         
     }
     
+    
+    // The 3 functions below add text into the input text field when any
+    // text suggestion button is pressed.
     
     @objc private func textSuggestionButton1Pressed(){
         messageInputBar.inputTextView.text.append(text1)
@@ -197,13 +203,6 @@ final class ChatViewController: MessagesViewController {
                                             handler: { [weak self] _ in
             
             self?.presentVideoInputActionsheet()
-        }))
-        
-        actionSheet.addAction(UIAlertAction(title: "Audio",
-                                            style: .default,
-                                            handler: { [weak self] _ in
-            
-            
         }))
         
         actionSheet.addAction(UIAlertAction(title: "Location",

@@ -291,6 +291,7 @@ class SlangsManager {
     }
     
     
+    /// Translates Malaysian slangs into English
     public func translateSlangs(word_array: [String]) -> String {
         
         let input_sentence = word_array.joined(separator: " ")
@@ -491,13 +492,9 @@ class SlangsManager {
         
         var translatedSentence = words.joined(separator: " ")
         
-        print("translated_slangs_text:\(translatedSentence)")
+        // print("translated_slangs_text:\(translatedSentence)")
         return translatedSentence
     }
     
-    
-    public func translate2Slangs(){
-        
-    }
     
 }
